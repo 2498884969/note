@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+           "><!-- 要添加最后2行 -->
+
+        <bean id="arithmeticCaculator" class="impl.xml.ArithmeticCaculatorImpl"></bean>
+        <!--配置切面的bean-->
+        <bean id="loggingAspect" class="impl.xml.LoggingAspect"></bean>
+
+        <bean id="validationAspect" class="impl.xml.ValidationAspect"></bean>
+
+        <!--配置AOP-->
+        <!--impl.xml.AtithmeticCaculator.add-->
+        <aop:config>
+                <!--配置切点表达式-->
+                <aop:pointcut id="pointcut" expression="execution(public int impl.xml.AtithmeticCaculator.*(int, int))"></aop:pointcut>
+                <!--配置切面及通知-->
+                <aop:aspect ref="loggingAspect" order="2" >
+                        <aop:before method="beforeMethod" pointcut-ref="pointcut"></aop:before>
+                        <aop:after method="afterMethod" pointcut-ref="pointcut"></aop:after>
+                        <aop:after-throwing method="afterThrowing" pointcut-ref="pointcut" throwing="ex"/>
+                </aop:aspect>
+                <aop:aspect ref="validationAspect" order="1">
+                        <aop:before method="validateArgs" pointcut-ref="pointcut"></aop:before>
+                </aop:aspect>
+        </aop:config>
+        <!--配置自动扫描的包-->
+        <!--<context:component-scan base-package="aop.impl"></context:component-scan>-->
+        <!--使得AspectJ注解起作用 自动为匹配的类生成代理对象-->
+        <!--<aop:aspectj-autoproxy></aop:aspectj-autoproxy>-->
+</beans>

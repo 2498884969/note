@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+    prototype：是指每次调用bean的配置文件的时候都会返回一个新的bean,
+    容器创建时不创建初始化实例，每次请求时会创建一个值
+    singleton：默认值，容器初始化的时候创建bean实例，在整个容器声明周期内只创建这一个值，单例的
+    -->
+    <bean id="car" class="autowire.Car" scope="prototype">
+        <property name="brand" value="Audi"/>
+        <property name="price" value="3000000"/>
+    </bean>
+</beans>

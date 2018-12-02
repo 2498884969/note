@@ -1,0 +1,52 @@
+1. SpringAOP
+
+1).加入jar包
+
+lib/aopalliance-1.0.jar
+lib/aspectjweaver-1.5.2a.jar
+lib/commons-logging-1.2.jar
+lib/spring-aop-4.3.18.RELEASE.jar
+lib/spring-aspects-4.3.18.RELEASE.jar
+lib/spring-beans-4.3.18.RELEASE.jar
+lib/spring-context-4.3.18.RELEASE.jar
+lib/spring-context-support-4.3.18.RELEASE.jar
+lib/spring-core-4.3.18.RELEASE.jar
+lib/spring-expression-4.3.18.RELEASE.jar
+lib/spring-instrument-4.3.18.RELEASE.jar
+lib/spring-instrument-tomcat-4.3.18.RELEASE.jar
+lib/spring-jdbc-4.3.18.RELEASE.jar
+lib/spring-jms-4.3.18.RELEASE.jar
+lib/spring-messaging-4.3.18.RELEASE.jar
+lib/spring-orm-4.3.18.RELEASE.jar
+lib/spring-oxm-4.3.18.RELEASE.jar
+lib/spring-test-4.3.18.RELEASE.jar
+lib/spring-tx-4.3.18.RELEASE.jar
+
+2).在配置文件中加入AOP命名空间
+
+3）.基于注解的方式在配置文件中加入如下配置：
+
+        <!--使得AspectJ注解起作用 自动为匹配的类生成代理对象-->
+        <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+        ②.把横切关注点的代码抽象到切面中
+        1. 切片首先是IOC中的一个bean，加入@component注解
+        11.切片需要加入@Aspect注解
+
+        ③.在类中声明各种通知
+        i. 声明一个方法
+        ii.在方法前加入@Before注解
+
+        ④.可以在通知中声明一个JoinPoint的参数，然后就能访问链接细节，如方法名称和参数。
+
+@Component
+@Aspect
+public class LoggingAspect {
+    // 2>.声明该方法是一个前置通知
+    @Before("execution(public int aop.AtithmeticCaculator.*(int, int))")
+    public void beforeMethod(JoinPoint joinPoint){
+        String methodName = joinPoint.getSignature().getName();
+        List<Object> args = Arrays.asList(joinPoint.getArgs());
+        System.out.println("The method "+ methodName +" begins with" + args);
+    }
+}

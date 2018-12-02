@@ -1,0 +1,2 @@
+className = file.Student
+methodName = show

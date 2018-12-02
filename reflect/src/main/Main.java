@@ -1,0 +1,33 @@
+package main;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+/**
+ * 获取student类的main方法
+ */
+
+public class Main {
+    public static void main(String[] args) {
+        try{
+            //1>.获取Student对象的字节码
+            Class clazz = Class.forName("main.Student");
+            //2>.获取main方法
+            Method meyhodMain = clazz.getMethod("main", String[].class);
+            //3>.methodMain.invoke(null, new String[]{"a","b","c"});
+            //第一个参数，对象类型，因为方法是static静态的，所以为null可以，第二个参数是String数组，
+            // 这里要注意在jdk1.4时是数组，jdk1.5之后是可变参数
+//            meyhodMain.invoke(null,(Object) new String[]{"a","b","c"});
+            meyhodMain.invoke(null, new Object[]{new String[]{"a","b","c"}});//方式二
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+}
